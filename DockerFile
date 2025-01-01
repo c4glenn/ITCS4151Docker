@@ -1,33 +1,61 @@
-FROM ros:humble
+FROM ubuntu:22.04
 
-RUN echo "source /opt/ros/humble/setup.bash" >> /etc/bash.bashrc
-
-# Install necessary packages
-RUN apt-get update -y && \
-    apt-get install -y \
-    tigervnc-standalone-server \
-    openbox \
-    vnc4server \
-    wget \
-    ros-${ROS_DISTRO}-rviz2 \
-    ros-${ROS_DISTRO}-turtle-tf2-py \
-    ros-${ROS_DISTRO}-tf2-ros \
-    ros-${ROS_DISTRO}-tf2-tools \
-    ros-${ROS_DISTRO}-tf-transformations && \
-    rm -rf /var/lib/apt/lists/*
-
-ENV VNC_DESKTOP_NAME="Xtigervnc"
-ENV VNC_GEOMETRY=1280x800
-
-RUN mkdir -p /exo && \
-    wget https://github.com/deref/exo/releases/download/2021.11.16/exo_standalone_2021.11.16_linux_amd64.tar.gz -O- | \
-    tar xvz -C /exo && \
-    mv /exo/exo /usr/local/bin && \
-    chmod +x /usr/local/bin/exo && \
-    rm -rf /exo
+ENV DEBIAN_FRONTEND=noninteractive
 
 
-COPY app/ /app/
-COPY root/.config/openbox/ /root/.config/openbox/
+# Install necessary dependencies
+RUN apt-get update && apt-get install -y \
+    curl \
+    gnupg2 \
+    lsb-release \
+    software-properties-common
 
-CMD ["/app/main.sh"]
+# Set up ROS2 sources
+RUN curl -sSL http://repo.ros2.org/repos.key | apt-key add - && \
+    add-apt-repository "deb http://packages.ros.org/ros2/ubuntu $(lsb_release -cs) main"
+
+# Install ROS2
+RUN apt-get update && apt-get install -y \
+    ros-humble-desktop \
+    python3-rosdep \
+    python3-colcon-common-extensions
+
+# Source ROS2 setup script
+RUN echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc
+
+# Install VS Code Server (code-server)
+RUN curl -fsSL https://code-server.dev/install.sh | sh
+
+# Expose port for VS Code Server
+EXPOSE 8080
+
+# Install VNC server and other necessary tools
+RUN apt-get install -y \
+    x11vnc \
+    xvfb \
+    xfce4 \
+    xfce4-goodies \
+    x11-apps
+
+# Set up VNC server
+RUN mkdir ~/.vnc
+RUN x11vnc -storepasswd 1234 ~/.vnc/passwd
+
+# Expose VNC port
+EXPOSE 5900
+
+# Install RViz2
+RUN apt-get install -y \
+    ros-humble-rviz2
+
+# Expose necessary ports
+EXPOSE 5900
+EXPOSE 8080
+
+# Set the DISPLAY environment variable
+ENV DISPLAY=:0
+
+# Set up entrypoint script to start VNC server and VS Code Server
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]

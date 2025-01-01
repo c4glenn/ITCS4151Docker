@@ -6,17 +6,17 @@
 		// Sets the run context to one level up instead of the .devcontainer folder.
 		"context": "..",
 		// Update the 'dockerFile' property if you aren't using the standard 'Dockerfile' filename.
-		"dockerfile": "../DockerFile"
+		"dockerfile": "../Dockerfile"
 	},
 	//"postStartCommand": "export DISPLAY=$(echo $DISPLAY); xhost +local:docker",
 	"runArgs": [
-		"-e", "DISPLAY=host.docker.internal:0",
 		"--privileged",
-		"--net", "host"
+		"--net", "host",
+		"--pid", "host"
 	],
 	"mounts": [
 		"source=/dev,target=/dev,type=bind"
-  ]
+  ],
 
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	// "features": {},
@@ -25,7 +25,7 @@
 	// "forwardPorts": [],
 
 	// Uncomment the next line to run commands after the container is created.
-	// "postCreateCommand": "cat /etc/os-release",
+	"postCreateCommand": "./entrypoint.sh"
 
 	// Configure tool-specific properties.
 	// "customizations": {},
