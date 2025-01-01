@@ -23,12 +23,6 @@ RUN apt-get update && apt-get install -y \
 # Source ROS2 setup script
 RUN echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc
 
-# Install VS Code Server (code-server)
-RUN curl -fsSL https://code-server.dev/install.sh | sh
-
-# Expose port for VS Code Server
-EXPOSE 8080
-
 # Install VNC server and other necessary tools
 RUN apt-get install -y \
     x11vnc \
