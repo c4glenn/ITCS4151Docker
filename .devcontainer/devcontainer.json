@@ -2,12 +2,13 @@
 // README at: https://github.com/devcontainers/templates/tree/main/src/docker-existing-dockerfile
 {
 	"name": "ITCS4151 DockerFile",
-	"build": {
-		// Sets the run context to one level up instead of the .devcontainer folder.
-		"context": "..",
-		// Update the 'dockerFile' property if you aren't using the standard 'Dockerfile' filename.
-		"dockerfile": "../Dockerfile"
-	},
+	// "build": {
+	// 	// Sets the run context to one level up instead of the .devcontainer folder.
+	// 	"context": "..",
+	// 	// Update the 'dockerFile' property if you aren't using the standard 'Dockerfile' filename.
+	// 	"dockerfile": "../Dockerfile"
+	// },
+	"image": "docker.io/c4glenn/itcs4151:latest",
 	//"postStartCommand": "export DISPLAY=$(echo $DISPLAY); xhost +local:docker",
 	"runArgs": [
 		"--privileged",
@@ -15,7 +16,7 @@
 		"--pid", "host"
 	],
 	"mounts": [
-		"source=/dev,target=/dev,type=bind"
+		"source=/dev/,target=/dev/,type=bind"
   ],
 
 	// Features to add to the dev container. More info: https://containers.dev/features.
@@ -25,10 +26,17 @@
 	// "forwardPorts": [],
 
 	// Uncomment the next line to run commands after the container is created.
-	"postCreateCommand": "./entrypoint.sh"
+	"postCreateCommand": "./entrypoint.sh",
 
 	// Configure tool-specific properties.
-	// "customizations": {},
+	"customizations": {
+		// Configure properties specific to VS Code.
+		"vscode": {
+		  // Add the IDs of extensions you want installed when the container is created.
+		  "extensions": ["nonanonno.vscode-ros2", "JaehyunShim.vscode-ros2", "ms-python.python", "VisualStudioExptTeam.vscodeintellicode", "ms-python.vscode-pylance"]
+		}
+	  }
+	
 
 	// Uncomment to connect as an existing user other than the container default. More info: https://aka.ms/dev-containers-non-root.
 	// "remoteUser": "devcontainer"
