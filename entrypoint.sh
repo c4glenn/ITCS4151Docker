@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/bash
 
 # Start X virtual frame buffer
 Xvfb :0 -screen 0 1280x720x16 &
