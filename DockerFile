@@ -18,6 +18,9 @@ RUN curl -sSL http://repo.ros2.org/repos.key | apt-key add - && \
 RUN apt-get update && apt-get install -y \
     ros-humble-desktop \
     python3-rosdep \
+    python3-pip \
+    liboctomap-dev \
+    libfcl-dev \
     python3-colcon-common-extensions
 
 # Source ROS2 setup script
@@ -41,6 +44,8 @@ EXPOSE 5900
 # Install RViz2
 RUN apt-get install -y \
     ros-humble-rviz2
+
+RUN pip install python-fcl
 
 # Expose necessary ports
 EXPOSE 5900
