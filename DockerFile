@@ -52,7 +52,7 @@ EXPOSE 5900
 EXPOSE 8080
 
 # Set the DISPLAY environment variable
-ENV DISPLAY=:0
+ENV DISPLAY=:20
 
 # Set up entrypoint script to start VNC server and VS Code Server
 COPY entrypoint.sh /entrypoint.sh
