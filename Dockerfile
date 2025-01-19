@@ -45,15 +45,15 @@ EXPOSE 5900
 RUN apt-get install -y \
     ros-humble-rviz2
 
-RUN pip install python-fcl
+#RUN pip install python-fcl
 
 # Expose necessary ports
 EXPOSE 5900
 EXPOSE 8080
 
 # Set the DISPLAY environment variable
-ENV DISPLAY=:20
 
+RUN echo "export DISPLAY=:20" >> ~/.bashrc
 # Set up entrypoint script to start VNC server and VS Code Server
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
