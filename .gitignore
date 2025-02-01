@@ -56,3 +56,8 @@ venv/
 install/
 log/
 build/
+
+student_ws/src
+*_submission/*
+.DS_Store
+*.out
