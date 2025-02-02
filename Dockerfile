@@ -42,7 +42,7 @@ RUN x11vnc -storepasswd 1234 ~/.vnc/passwd
 EXPOSE 5900
 
 # Install RViz2
-RUN apt-get install -y \
+RUN apt-get update && apt-get install -y \
     ros-humble-rviz2 \
     ros-humble-tf-transformations \
     ros-humble-urdf-launch \
