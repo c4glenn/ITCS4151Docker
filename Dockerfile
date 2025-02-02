@@ -45,7 +45,8 @@ EXPOSE 5900
 RUN apt-get install -y \
     ros-humble-rviz2 \
     ros-humble-tf-transformations \
-    ros-humble-urdf-launch
+    ros-humble-urdf-launch \
+    python3-colcon-clean
 
 #RUN pip install python-fcl
 
