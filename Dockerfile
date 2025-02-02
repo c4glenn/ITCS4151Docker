@@ -44,7 +44,8 @@ EXPOSE 5900
 # Install RViz2
 RUN apt-get install -y \
     ros-humble-rviz2 \
-    ros-humble-tf-transformations
+    ros-humble-tf-transformations \
+    ros-humble-urdf-launch
 
 #RUN pip install python-fcl
 
