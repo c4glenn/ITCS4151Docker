@@ -49,6 +49,9 @@ RUN apt-get update && apt-get install -y \
     python3-colcon-clean
 
 #RUN pip install python-fcl
+RUN python3 --version
+
+RUN pip install networkx
 
 # Expose necessary ports
 EXPOSE 5900
