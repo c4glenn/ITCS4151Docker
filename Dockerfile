@@ -46,12 +46,23 @@ RUN apt-get update && apt-get install -y \
     ros-humble-rviz2 \
     ros-humble-tf-transformations \
     ros-humble-urdf-launch \
-    python3-colcon-clean
+    python3-colcon-clean \
+    liboctomap-dev \
+    libfcl-dev \
+    git
+
 
 #RUN pip install python-fcl
-RUN python3 --version
-
+RUN pip install "cython<3.0"
 RUN pip install networkx
+
+# Build and install python-fcl from source
+RUN git clone https://github.com/BerkeleyAutomation/python-fcl.git && \
+    cd python-fcl && \
+    mkdir -p fcl && \
+    python3 setup.py build_ext --inplace && \
+    pip install .   
+
 
 # Expose necessary ports
 EXPOSE 5900
