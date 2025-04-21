@@ -53,15 +53,16 @@ RUN apt-get update && apt-get install -y \
 
 
 #RUN pip install python-fcl
-RUN pip install "cython<3.0"
+RUN pip install "cython<3.0" "setuptools==68.2.2" "packaging==23.2"
 RUN pip install networkx
 
 # Build and install python-fcl from source
 RUN git clone https://github.com/BerkeleyAutomation/python-fcl.git && \
     cd python-fcl && \
-    mkdir -p fcl && \
-    python3 setup.py build_ext --inplace && \
-    pip install .   
+    chmod +x build_dependencies/install_linux.sh && \
+    ./build_dependencies/install_linux.sh && \
+    pip install . --no-build-isolation
+
 
 
 # Expose necessary ports
